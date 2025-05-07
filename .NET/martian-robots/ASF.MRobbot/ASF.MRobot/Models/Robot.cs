@@ -98,5 +98,31 @@ namespace ASF.MRobot.Models
         {
             return $"{X} {Y} {Orientation}" + (IsLost ? " LOST" : "");
         }
+
+        public (int x, int y) PeekNextPosition()
+        {
+            int newX = X;
+            int newY = Y;
+            switch (Orientation)
+            {
+                case 'N':
+                newY += 1;
+                break;
+            case 'E':
+                newX += 1;
+                break;
+            case 'S':
+                newY -= 1;
+                break;
+            case 'W':
+                newX -= 1;
+                break;
+            default:
+                throw new InvalidOperationException($"Invalid orientation: {Orientation}");
+            }
+
+            return (newX, newY);
+        }
+
     }
 }
