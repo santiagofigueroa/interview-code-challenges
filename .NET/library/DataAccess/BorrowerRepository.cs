@@ -26,5 +26,17 @@ namespace OneBeyondApi.DataAccess
                 return borrower.Id;
             }
         }
+
+        public List<Borrower> GetOnLoan()
+        {
+            using (var context = new LibraryContext())
+            {
+                // TODO: Implements Method logic
+                var list = context.Borrowers
+                    .ToList();
+                return list;
+            }
+
+        }
     }
 }
