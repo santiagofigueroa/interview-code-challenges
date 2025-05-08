@@ -12,7 +12,7 @@ namespace ASF.MRobot.Instructions
             var (nextX, nextY) = robot.PeekNextPosition();
 
             if (IsOutOfBounds(nextX, nextY, robot, grid)) return;
-
+            // Note: This is more of an new feature.
             robot.MoveForward(); // Safe to move
         }
 
