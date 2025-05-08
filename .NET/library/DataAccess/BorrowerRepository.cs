@@ -4,8 +4,12 @@ namespace OneBeyondApi.DataAccess
 {
     public class BorrowerRepository : IBorrowerRepository
     {
-        public BorrowerRepository()
+        private readonly ICatalogueRepository _catalogueRepository; 
+        private readonly ILogger<BorrowerRepository> _logger;
+        
+        public BorrowerRepository(ICatalogueRepository catalogueRepository)
         {
+            _catalogueRepository = catalogueRepository;
         }
         public List<Borrower> GetBorrowers()
         {
@@ -32,8 +36,12 @@ namespace OneBeyondApi.DataAccess
             using (var context = new LibraryContext())
             {
                 // TODO: Implements Method logic
-                var list = context.Borrowers
+                var list = _catalogueRepository.GetCatalogue()
+                    .Where(x => x.OnLoanTo != null)
+                    .Select(x => x.OnLoanTo)
+                    .Distinct()
                     .ToList();
+
                 return list;
             }
 
