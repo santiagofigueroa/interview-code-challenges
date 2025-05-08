@@ -33,10 +33,10 @@ namespace OneBeyondApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetBorrowers")]
+        [Route("GetOnLoans")]
         public IList<Borrower> Get()
         {
-            // TODO: Implemente Method logic 
+            // TODO: Implements Method logic 
             //return _borrowerRepository.AddBorrower();
         }
     }
