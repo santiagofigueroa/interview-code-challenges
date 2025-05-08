@@ -1,15 +1,14 @@
-﻿using OneBeyondApi.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using OneBeyondApi.Model;
 
 namespace OneBeyondApi.DataAccess
 {
     public class BorrowerRepository : IBorrowerRepository
     {
-        private readonly ICatalogueRepository _catalogueRepository; 
-        private readonly ILogger<BorrowerRepository> _logger;
-        
-        public BorrowerRepository(ICatalogueRepository catalogueRepository)
+    
+        public BorrowerRepository()
         {
-            _catalogueRepository = catalogueRepository;
+           
         }
         public List<Borrower> GetBorrowers()
         {
@@ -35,16 +34,27 @@ namespace OneBeyondApi.DataAccess
         {
             using (var context = new LibraryContext())
             {
-                // TODO: Implements Method logic
-                var list = _catalogueRepository.GetCatalogue()
-                    .Where(x => x.OnLoanTo != null)
-                    .Select(x => x.OnLoanTo)
-                    .Distinct()
+                // Query borrowers with active loans and include the titles of books they have on loan
+                var borrowersWithLoans = context.Catalogue
+                    .Where(bs => bs.OnLoanTo != null) // Filter books that are on loan
+                    .Include(bs => bs.Book) // Include book details
+                    .Include(bs => bs.OnLoanTo) // Include borrower details
+                    .GroupBy(bs => bs.OnLoanTo) // Group by borrower
+                    .Select(group => new Borrower
+                    {
+                        Id = group.Key.Id,
+                        Name = group.Key.Name,
+                        EmailAddress = group.Key.EmailAddress,
+                        BooksOnLoan = group.Select(bs => new Book
+                        {
+                            Id = bs.Book.Id,
+                            Name = bs.Book.Name
+                        }).ToList()
+                    })
                     .ToList();
 
-                return list;
+                return borrowersWithLoans;
             }
-
         }
     }
 }
