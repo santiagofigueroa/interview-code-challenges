@@ -31,5 +31,13 @@ namespace OneBeyondApi.Controllers
         {
             return _borrowerRepository.AddBorrower(borrower);
         }
+
+        [HttpGet]
+        [Route("GetBorrowers")]
+        public IList<Borrower> Get()
+        {
+            // TODO: Implemente Method logic 
+            //return _borrowerRepository.AddBorrower();
+        }
     }
 }

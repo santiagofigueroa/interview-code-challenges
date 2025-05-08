@@ -10,6 +10,7 @@
 
         public MarsGrid(int maxX, int maxY)
         {
+            // threshold for grid size.
             if (maxX > 50 || maxY > 50 || maxX < 0 || maxY < 0)
                 throw new ArgumentOutOfRangeException("Grid size must be within 0 to 50.");
 
