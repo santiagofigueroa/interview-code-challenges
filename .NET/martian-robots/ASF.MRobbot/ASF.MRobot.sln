@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASF.MRobot", "ASF.MRobot\ASF.MRobot.csproj", "{A69A20D7-F668-42F8-99E7-2986B44C787C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASF.Robot.Test", "ASF.Robot.Test\ASF.Robot.Test.csproj", "{B8DA352B-1821-4A33-9178-846B21206081}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A69A20D7-F668-42F8-99E7-2986B44C787C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A69A20D7-F668-42F8-99E7-2986B44C787C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A69A20D7-F668-42F8-99E7-2986B44C787C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8DA352B-1821-4A33-9178-846B21206081}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8DA352B-1821-4A33-9178-846B21206081}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8DA352B-1821-4A33-9178-846B21206081}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8DA352B-1821-4A33-9178-846B21206081}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

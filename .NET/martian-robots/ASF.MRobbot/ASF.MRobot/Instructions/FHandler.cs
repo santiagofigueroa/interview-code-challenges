@@ -11,6 +11,13 @@ namespace ASF.MRobot.Instructions
 
             var (nextX, nextY) = robot.PeekNextPosition();
 
+            if (IsOutOfBounds(nextX, nextY, robot, grid)) return;
+
+            robot.MoveForward(); // Safe to move
+        }
+
+        private bool IsOutOfBounds(int nextX, int nextY, Robot robot, MarsGrid grid)
+        {
             if (!grid.IsInBounds(nextX, nextY))
             {
                 if (!grid.HasScent(robot.X, robot.Y, robot.Orientation))
@@ -18,11 +25,9 @@ namespace ASF.MRobot.Instructions
                     grid.LeaveScent(robot.X, robot.Y, robot.Orientation);
                     robot.MarkLost();
                 }
-                // else: ignore the move
-                return;
+                return true; // Out of bounds
             }
-
-            robot.MoveForward(); // Safe to move
+            return false; // In bounds
         }
     }
 }
