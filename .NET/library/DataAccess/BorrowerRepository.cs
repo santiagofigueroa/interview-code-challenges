@@ -102,5 +102,43 @@ namespace OneBeyondApi.DataAccess
                 return true;
             }
         }
+
+        public bool ReserveBook(Guid borrowerId, Guid bookId)
+        {
+            using (var context = new LibraryContext())
+            {
+                // Ensure the book exists and is currently on loan
+                var catalogueEntry = context.Catalogue
+                    .Include(c => c.OnLoanTo)
+                    .FirstOrDefault(c => c.Book.Id == bookId);
+
+                if (catalogueEntry == null)
+                    return false;
+
+                // Only allow reservation if the book is currently loaned out
+                if (catalogueEntry.OnLoanTo == null)
+                    return false;
+
+                // Prevent duplicate reservations
+                bool alreadyReserved = context.Reservations
+                    .Any(r => r.BookId == bookId && r.BorrowerId == borrowerId);
+
+                if (alreadyReserved)
+                    return false;
+
+                var reservation = new Reservation
+                {
+                    BorrowerId = borrowerId,
+                    BookId = bookId,
+                    ReservedAt = DateTime.UtcNow
+                };
+
+                context.Reservations.Add(reservation);
+                context.SaveChanges();
+
+                return true;
+            }
+        }
+
     }
 }

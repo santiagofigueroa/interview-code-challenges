@@ -8,5 +8,6 @@ namespace OneBeyondApi.DataAccess
         public Guid AddBorrower(Borrower borrower);
         public List<Borrower> GetOnLoan();
         bool ReturnBook(Guid bookId);
+        bool ReserveBook(Guid borrowerId, Guid bookId);
     }
 }

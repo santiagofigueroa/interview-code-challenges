@@ -3,7 +3,7 @@ using OneBeyondApi.Model;
 
 namespace OneBeyondApi.DataAccess
 {
-    public class LibraryContext: DbContext
+    public class LibraryContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -14,6 +14,7 @@ namespace OneBeyondApi.DataAccess
         public DbSet<BookStock> Catalogue { get; set; }
         public DbSet<Borrower> Borrowers { get; set; }
         public DbSet<Fine> Fines { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,6 +29,17 @@ namespace OneBeyondApi.DataAccess
                 .HasOne(f => f.Book)
                 .WithMany()
                 .HasForeignKey(f => f.BookId);
+
+
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Borrower)
+                .WithMany(b => b.Reservations)
+                .HasForeignKey(r => r.BorrowerId);
+
+            modelBuilder.Entity<Reservation>()
+                .HasOne(r => r.Book)
+                .WithMany()
+                .HasForeignKey(r => r.BookId);
         }
     }
 }

@@ -7,5 +7,6 @@
         public string EmailAddress { get; set; }
         public List<Book>? BooksOnLoan { get; set; }
         public List<Fine> Fines { get; set; } = new List<Fine>();
+        public List<Reservation> Reservations { get; set; } = new();
     }
 }

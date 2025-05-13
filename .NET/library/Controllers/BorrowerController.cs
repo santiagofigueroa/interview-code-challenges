@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OneBeyondApi.DataAccess;
 using OneBeyondApi.Model;
+using OneBeyondApi.Model.Requests;
 
 namespace OneBeyondApi.Controllers
 {
@@ -47,6 +48,17 @@ namespace OneBeyondApi.Controllers
                 return NotFound("Book not found or not on loan.");
 
             return Ok("Book returned successfully.");
+        }
+
+        [HttpPost("reservations")]
+        public IActionResult ReserveBook([FromBody] ReservationRequest request)
+        {
+            var success = _borrowerRepository.ReserveBook(request.BorrowerId, request.BookId);
+
+            if (!success)
+                return BadRequest("Book is not on loan or already reserved by this borrower.");
+
+            return Ok("Book reserved successfully.");
         }
     }
 }
