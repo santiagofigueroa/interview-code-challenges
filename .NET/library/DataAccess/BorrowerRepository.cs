@@ -71,6 +71,12 @@ namespace OneBeyondApi.DataAccess
                     return false; // Book not found or not on loan
                 }
 
+                //3. Add fine if is past the borrowed date.
+                var borrower = catalogueEntry.OnLoanTo;
+                var book = catalogueEntry.Book;
+
+
+
                 catalogueEntry.OnLoanTo = null;
                 context.SaveChanges();
                 return true;
