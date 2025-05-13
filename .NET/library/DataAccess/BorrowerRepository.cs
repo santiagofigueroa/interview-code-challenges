@@ -5,10 +5,10 @@ namespace OneBeyondApi.DataAccess
 {
     public class BorrowerRepository : IBorrowerRepository
     {
-    
+
         public BorrowerRepository()
         {
-           
+
         }
         public List<Borrower> GetBorrowers()
         {
@@ -54,6 +54,26 @@ namespace OneBeyondApi.DataAccess
                     .ToList();
 
                 return borrowersWithLoans;
+            }
+        }
+
+        public bool ReturnBook(Guid bookId)
+        {
+            using (var context = new LibraryContext())
+            {
+                var catalogueEntry = context.Catalogue
+                    .Include(c => c.Book)
+                    .Include(c => c.OnLoanTo)
+                    .FirstOrDefault(c => c.Book.Id == bookId && c.OnLoanTo != null);
+
+                if (catalogueEntry == null)
+                {
+                    return false; // Book not found or not on loan
+                }
+
+                catalogueEntry.OnLoanTo = null;
+                context.SaveChanges();
+                return true;
             }
         }
     }
