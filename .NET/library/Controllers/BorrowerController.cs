@@ -60,5 +60,16 @@ namespace OneBeyondApi.Controllers
 
             return Ok("Book reserved successfully.");
         }
+        [HttpGet("availability")]
+        public IActionResult GetAvailability(Guid borrowerId, Guid bookId) { 
+        
+            var result = _borrowerRepository.GetExpectedAvailability(borrowerId, bookId);
+
+            // As we only return the date if the book is on loan, we can return a 404 if the result is null.
+            return result.HasValue
+                ? Ok(result.Value)
+                : NotFound("Book not found or not on loan.");
+        }
+
     }
 }

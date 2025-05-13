@@ -140,5 +140,29 @@ namespace OneBeyondApi.DataAccess
             }
         }
 
+        public DateTime? GetExpectedAvailability(Guid borrowerId, Guid bookId)
+        {
+            using (var context = new LibraryContext())
+            {
+                var reservations = context.Reservations
+                    .Where(r => r.BookId == bookId)
+                    .OrderBy(r => r.ReservedAt)
+                    .ToList();
+
+                var position = reservations.FindIndex(r => r.BorrowerId == borrowerId);
+                if (position == -1) return null;
+
+                var loanInfo = context.Catalogue
+                    .FirstOrDefault(c => c.Book.Id == bookId);
+
+                if (loanInfo == null || loanInfo.LoanEndDate == null)
+                    return null;
+
+                var baseDate = loanInfo.LoanEndDate.Value;
+                var estimatedDate = baseDate.AddDays(7 * position); // assume 7 days per borrower
+                return estimatedDate;
+            }
+        }
+
     }
 }

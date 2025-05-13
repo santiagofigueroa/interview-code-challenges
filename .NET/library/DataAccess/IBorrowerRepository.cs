@@ -9,5 +9,6 @@ namespace OneBeyondApi.DataAccess
         public List<Borrower> GetOnLoan();
         bool ReturnBook(Guid bookId);
         bool ReserveBook(Guid borrowerId, Guid bookId);
+        DateTime? GetExpectedAvailability(Guid borrowerId, Guid bookId);
     }
 }
