@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OneBeyondApi.DataAccess;
 using OneBeyondApi.Model;
-using System.Collections;
-using System.Net;
 
 namespace OneBeyondApi.Controllers
 {
@@ -41,6 +38,7 @@ namespace OneBeyondApi.Controllers
             // TODO: Implements Method logic 
             return _borrowerRepository.GetOnLoan();
         }
+
         [HttpPost("return/{bookId}")]
         public  IActionResult ReturnBook(Guid bookId)
         {

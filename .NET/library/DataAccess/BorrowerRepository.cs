@@ -71,12 +71,32 @@ namespace OneBeyondApi.DataAccess
                     return false; // Book not found or not on loan
                 }
 
-                //3. Add fine if is past the borrowed date.
+                //3. Add fine if is past the return date.
                 var borrower = catalogueEntry.OnLoanTo;
                 var book = catalogueEntry.Book;
 
+                // Simulate loan info 
+                var rerturnEndDate = catalogueEntry.LoanEndDate ?? DateTime.UtcNow.AddDays(-7); // default if missing
 
+                // add fine if is past the returnDate
+                if (DateTime.UtcNow > rerturnEndDate)
+                {
+                    var daysLate = (DateTime.UtcNow - rerturnEndDate).Days;
+                    var fineAmount = daysLate * 0.55m; // 55p per day
 
+                    var fine = new Fine
+                    {
+                        BorrowerId = borrower.Id,
+                        BookId = book.Id,
+                        Amount = fineAmount,
+                        IssuedDate = DateTime.UtcNow,
+                        Reason = $"Returned {daysLate} day(s) late"
+                    };
+
+                    context.Fines.Add(fine);
+                }
+
+                // Set this book free to be borrowed again.
                 catalogueEntry.OnLoanTo = null;
                 context.SaveChanges();
                 return true;
